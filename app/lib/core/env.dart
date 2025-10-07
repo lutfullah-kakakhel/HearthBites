@@ -2,7 +2,7 @@
 class Env {
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:8000',  // Android emulator
+    defaultValue: 'http://localhost:8001',  // Backend on port 8001
   );
   
   static const String supabaseUrl = String.fromEnvironment(

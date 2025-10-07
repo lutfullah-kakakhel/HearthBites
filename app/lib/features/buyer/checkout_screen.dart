@@ -23,11 +23,11 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       final cartItems = ref.read(cartProvider);
       final currentUser = ref.read(currentUserProvider);
       
-      // Mock user ID for demo
-      final buyerId = currentUser?.id ?? 'buyer-1-id';
+      // Use real IDs from database
+      final buyerId = currentUser?.id ?? 'b92215d3866f48ffad0565945a6193ce';
       final sellerId = cartItems.first.menuItem.sellerId;
-      // Mock address ID for demo
-      const addressId = 'address-1-id';
+      // Use real address ID from database
+      const addressId = '54df3c7e538a4c1fb95b5857a257e6c6';
 
       final orderCreate = OrderCreate(
         sellerId: sellerId,

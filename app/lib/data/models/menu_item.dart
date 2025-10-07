@@ -7,14 +7,14 @@ part 'menu_item.g.dart';
 class MenuItem with _$MenuItem {
   const factory MenuItem({
     required String id,
-    required String sellerId,
+    @JsonKey(name: 'seller_id') required String sellerId,
     required String name,
-    String? photoUrl,
+    @JsonKey(name: 'photo_url') String? photoUrl,
     String? category,
-    required int pricePk,
+    @JsonKey(name: 'price_pk') required int pricePk,
     String? portion,
-    @Default(true) bool isAvailable,
-    required DateTime createdAt,
+    @JsonKey(name: 'is_available') @Default(true) bool isAvailable,
+    @JsonKey(name: 'created_at') required DateTime createdAt,
   }) = _MenuItem;
 
   factory MenuItem.fromJson(Map<String, dynamic> json) => _$MenuItemFromJson(json);

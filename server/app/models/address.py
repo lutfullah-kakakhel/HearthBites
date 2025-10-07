@@ -1,12 +1,13 @@
 from sqlalchemy import Column, String, Boolean, ForeignKey, Double
 from sqlalchemy.dialects.postgresql import UUID
+from uuid import uuid4
 from app.db.base import Base
 
 
 class Address(Base):
     __tablename__ = "addresses"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, server_default="gen_random_uuid()")
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"))
     label = Column(String)
     line1 = Column(String)

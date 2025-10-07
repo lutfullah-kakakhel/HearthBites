@@ -31,7 +31,7 @@ class TaskDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // For simplicity, we'll use a mock delivery here
     // In production, you'd fetch this from the API
-    const mockDelivery = Delivery(
+    final mockDelivery = Delivery(
       id: 'delivery-1',
       orderId: 'order-1',
       riderId: 'rider-1',
@@ -42,7 +42,7 @@ class TaskDetailScreen extends ConsumerWidget {
       dropLng: 74.32,
       distanceKm: 2.5,
       feePk: 100,
-      createdAt: '2024-01-01T00:00:00Z',
+      createdAt: DateTime.parse('2024-01-01T00:00:00Z'),
     );
 
     return Scaffold(

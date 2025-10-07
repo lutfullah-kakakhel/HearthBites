@@ -17,44 +17,22 @@ class BuyerHomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final menuItemsAsync = ref.watch(menuItemsProvider);
     final cart = ref.watch(cartProvider);
+    final cartNotifier = ref.read(cartProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('HearthBites'),
         actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                onPressed: () => context.push('/buyer/cart'),
-              ),
-              if (cart.isNotEmpty)
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    constraints: const BoxConstraints(
-                      minWidth: 16,
-                      minHeight: 16,
-                    ),
-                    child: Text(
-                      '${cart.length}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-            ],
+          Badge(
+            label: Text('${cart.length}'),
+            isLabelVisible: cart.isNotEmpty,
+            child: IconButton(
+              icon: const Icon(Icons.shopping_cart_outlined),
+              onPressed: () => context.push('/buyer/cart'),
+              tooltip: 'View Cart',
+            ),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: menuItemsAsync.when(
@@ -97,6 +75,70 @@ class BuyerHomeScreen extends ConsumerWidget {
           ),
         ),
       ),
+      floatingActionButton: cart.isNotEmpty
+          ? FloatingActionButton.extended(
+              onPressed: () => context.push('/buyer/cart'),
+              icon: const Icon(Icons.shopping_cart),
+              label: Text('View Cart (${cart.length})'),
+              tooltip: 'View Cart',
+            )
+          : null,
+      bottomNavigationBar: cart.isNotEmpty
+          ? Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: SafeArea(
+                child: InkWell(
+                  onTap: () => context.push('/buyer/cart'),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.shopping_cart, color: Colors.white),
+                            const SizedBox(width: 12),
+                            Text(
+                              '${cart.length} item${cart.length > 1 ? 's' : ''}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'PKR ${cartNotifier.totalAmount}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            const Icon(Icons.arrow_forward, color: Colors.white),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : null,
     );
   }
 }
